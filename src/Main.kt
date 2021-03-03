@@ -1,7 +1,7 @@
 fun main() {
     val phoneNumber = "0345 48523 4859633"
    // printArr(phoneNumber)
-    println("Result: " + convertNumbersToWords(phoneNumber))
+    println("Result: " + convertNumbersToWords(Language.SL, phoneNumber))
 }
 
 fun printArr(number: String) {
@@ -10,7 +10,7 @@ fun printArr(number: String) {
     }
 }
 
-fun getNumbersWordsPairs(): MutableList<Pair<String, String>> {
+fun getSLNumbersWordsPairs(): MutableList<Pair<String, String>> {
     val list = mutableListOf<Pair<String, String>>()
     list.add(Pair("1", "ena"))
     list.add(Pair("2", "dva"))
@@ -25,16 +25,41 @@ fun getNumbersWordsPairs(): MutableList<Pair<String, String>> {
     return list
 }
 
-fun convertNumbersToWords(number: String): String {
-    var wordNumber = ""
-    if(number.isEmpty()) return wordNumber
-    for (i in number.indices) {
-        val pair = getNumbersWordsPairs().find { it.first == number[i].toString() }
-        println("Iteration: $i  Char: ${number[i]} Pair: $pair")
-        if(pair != null) {
-            wordNumber += pair.second
+fun getENNumbersWordsPairs(): MutableList<Pair<String, String>> {
+    val list = mutableListOf<Pair<String, String>>()
+    list.add(Pair("1", "one"))
+    list.add(Pair("2", "two"))
+    list.add(Pair("3", "three"))
+    list.add(Pair("4", "four"))
+    list.add(Pair("5", "five"))
+    list.add(Pair("6", "six"))
+    list.add(Pair("7", "seven"))
+    list.add(Pair("8", "eight"))
+    list.add(Pair("9", "nine"))
+    list.add(Pair("0", "zero"))
+    return list
+}
+
+fun convertNumbersToWords(languageType: Language, numberValue: String): String {
+    var numbersAsWords = ""
+    if(numberValue.isEmpty()) return numbersAsWords
+
+    val input = when (languageType) {
+        Language.SL -> {
+            getSLNumbersWordsPairs()
         }
-        wordNumber += " "
+        Language.EN -> {
+            getENNumbersWordsPairs()
+        }
     }
-    return wordNumber
+
+    for (i in numberValue.indices) {
+        val pair = input.find { it.first == numberValue[i].toString() }
+        println("Index: $i  Char: ${numberValue[i]} Pair: $pair")
+        if(pair != null) {
+            numbersAsWords += pair.second
+        }
+        numbersAsWords += " "
+    }
+    return numbersAsWords
 }
